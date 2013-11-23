@@ -1,0 +1,9 @@
+<?php
+$s_plugin_DatabaseCleanup_title = 'Database Cleanup';
+
+$s_plugin_DatabaseCleanup_description = 'Clean database from older items according to age/status rules.';
+
+$s_plugin_DatabaseCleanup_config = 'Configuration';
+
+
+$s_plugin_DatabaseCleanup_expiration_period = 'Default expiration period (days, 0 to disable)';
