@@ -8,6 +8,7 @@ print_manage_menu( );
 
 
 $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
+$t_minimum_status = plugin_config_get('minimum_status');
 ?>
 <br />
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
@@ -29,6 +30,18 @@ $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
         <label><input type="text" name="expiration" value="<?php echo $t_default_expiration_period; ?>"></label>
     </td>
 </tr>
+
+<tr <?php echo helper_alternate_class( )?>>
+    <td class="category">
+        <?php echo plugin_lang_get( 'minimum_status' )?>
+    </td>
+    <td class="center" colspan="2">
+        <select name="minimum_status">
+            <?php print_enum_string_option_list( 'status', $t_minimum_status ) ?>
+        </select>  
+    </td>
+</tr>
+
 
 <tr class="spacer"><td></td></tr>
 

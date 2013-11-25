@@ -29,11 +29,11 @@ class DatabaseCleanupPlugin extends MantisPlugin {
             // in days, 0 means disabled
             'default_expiration_period' => 0,
             'reference_date' => '',
+            'minimum_status' => _NEW,
         );
     }
 
     function init() {
-        plugin_event_hook( 'EVENT_PLUGIN_INIT', 'header' );
         plugin_event_hook( 'EVENT_MANAGE_PROJECT_UPDATE_FORM', 'project_options' );
         plugin_event_hook( 'EVENT_MANAGE_PROJECT_UPDATE', 'project_options_update' );
     }
