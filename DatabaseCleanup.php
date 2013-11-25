@@ -34,13 +34,30 @@ class DatabaseCleanupPlugin extends MantisPlugin {
 
     function init() {
         plugin_event_hook( 'EVENT_PLUGIN_INIT', 'header' );
+        plugin_event_hook( 'EVENT_MANAGE_PROJECT_UPDATE_FORM', 'project_options' );
+        plugin_event_hook( 'EVENT_MANAGE_PROJECT_UPDATE', 'project_options_update' );
     }
 
-    /**
-    * Handle the EVENT_PLUGIN_INIT callback.
-    */
-    function header() {
-        header( 'X-Mantis: This Mantis has super cow powers.' );
+
+    function project_options( $p_event, $p_project_id ) {
+        $t_project_expiration_period = plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id);
+        echo '<tr ' . helper_alternate_class() . '>';
+        echo '<td class="category">';
+        echo plugin_lang_get( 'project_expiration_period' );
+        echo '</td>';
+        echo '<td>';
+        echo '<input type="text" name="expiration" value="' . $t_project_expiration_period . '"/>';
+        echo '</td>';
+        echo '</tr>';
+    }
+
+
+    function project_options_update( $p_event, $p_project_id ) {
+        $f_project_expiration_period = gpc_get_int('expiration');
+        if (plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id) != $f_project_expiration_period) {
+            plugin_config_set( 'project_expiration_period', $f_project_expiration_period, NO_USER, $p_project_id);
+        }
+
     }
 
 }
