@@ -18,7 +18,7 @@ class DatabaseCleanupPlugin extends MantisPlugin {
         $this->author      = 'Gianluca Sforna';
         $this->contact     = 'giallu@gmail.com';
         $this->url         = 'TODO';
-        $this->page        = 'test';
+        $this->page        = 'config';
     }
 
     /**
