@@ -7,11 +7,18 @@ html_page_top( plugin_lang_get( 'title' ) );
 print_manage_menu();
 
 
-$t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
 
 // create and return the list of issues matching the configured rules for deletion
 function create_bug_list(){
     $t_issues_list = array();
+
+    $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
+    if ($t_default_expiration_period == "0"){
+        // Disabled, return an empty list
+        return $t_issues_list;
+    }
+
+    $t_expiration_date = strtotime("- $t_default_expiration_period");
 
     $t_minimum_status = plugin_config_get('minimum_status');
     $t_desired_statuses = array();
@@ -25,15 +32,19 @@ function create_bug_list(){
     # foreach project
     $t_projects = project_get_all_rows();
     foreach ( $t_projects as $t_project_id => $t_project_data ) {
-        # determine expiration_period
+        # determine expiration date for the project
+        $t_project_expiration_period = plugin_config_get( 'project_expiration_period', 0, false, null, $t_project_id);
+        if ($t_project_expiration_period != "0") {
+            // replace global expiration date
+            $t_expiration_date = strtotime("- $t_project_expiration_period");
+        }
         
         $t_selected_issues = do_query($t_project_id, $t_desired_statuses);
         foreach ($t_selected_issues as $t_issue) {
-            $t_issues_list[] = $t_issue;
+            if ($t_issue->date_submitted < $t_expiration_date ) {
+                $t_issues_list[] = $t_issue;
+            }
         }
-
-                # if bug_age > expiration_period
-                    # $t_bug_list[] = $t_bug_id
     }
     return $t_issues_list;
 
@@ -41,8 +52,7 @@ function create_bug_list(){
 
 
 function do_query( $p_project_id, $p_desired_statuses){
-
-    #create filter
+    # create filter
     $t_filter = filter_get_default();
     $t_filter[FILTER_PROPERTY_STATUS_ID] = $p_desired_statuses;
     $t_filter[FILTER_PROPERTY_PROJECT_ID] = $p_project_id;
@@ -62,7 +72,6 @@ function do_query( $p_project_id, $p_desired_statuses){
     }
 
     return $t_filter_result;
-
 }
 
 
@@ -70,9 +79,10 @@ $t_issues_to_delete = create_bug_list();
 
 echo "<p>Found " . count($t_issues_to_delete) . " issues to delete</p>";
 foreach ($t_issues_to_delete as $t_issue) {
-    echo "<pre>";
-    echo "Project: $t_issue->project_id issue: $t_issue->id";
-    echo "</pre>";
+    echo "<p>";
+    echo "Project: $t_issue->project_id " . '<a href="' . string_get_bug_view_url($t_issue->id) . '"' . ">issue: $t_issue->id</a>";
+    echo "</p>";
+    echo "<pre>"; print_r($t_issue); echo "</pre>";
 }
 /*
 <br />
