@@ -11,7 +11,7 @@ $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
 
 // create and return the list of issues matching the configured rules for deletion
 function create_bug_list(){
-    $t_bug_list = array();
+    $t_issues_list = array();
 
     $t_minimum_status = plugin_config_get('minimum_status');
     $t_desired_statuses = array();
@@ -26,43 +26,54 @@ function create_bug_list(){
     $t_projects = project_get_all_rows();
     foreach ( $t_projects as $t_project_id => $t_project_data ) {
         # determine expiration_period
-
-        # create filter
-        $t_filter = filter_get_default();
-        $t_filter[FILTER_PROPERTY_STATUS_ID] = $t_desired_statuses;
-        $t_filter[FILTER_PROPERTY_PROJECT_ID] = $t_project_id;
-        $t_filter['_view_type'] = 'advanced';
-
-
-        # Get bug rows according to the current filter
-        $t_page_number = 1;
-        $t_per_page = -1;
-        $t_bug_count = null;
-        $t_page_count = null;
-        $t_filter_result = filter_get_bug_rows( $t_page_number, $t_per_page, 
-            $t_page_count, $t_bug_count, $t_filter);
-
-        if( $t_filter_result === false ) {
-            echo "<p>FILTER FAILED!<p>";
-            $t_filter_result = array();
-        }
         
-        echo "<p>Found " . count($t_filter_result) . " matching bugs in project $t_project_id</p>";
-        foreach ($t_filter_result as $t_bug) {
-            echo "<pre>";
-            print_r ($t_bug);
-            echo "</pre>";
+        $t_selected_issues = do_query($t_project_id, $t_desired_statuses);
+        foreach ($t_selected_issues as $t_issue) {
+            $t_issues_list[] = $t_issue;
         }
+
                 # if bug_age > expiration_period
                     # $t_bug_list[] = $t_bug_id
     }
-    return $t_bug_list;
+    return $t_issues_list;
 
 }
 
-create_bug_list();
+
+function do_query( $p_project_id, $p_desired_statuses){
+
+    #create filter
+    $t_filter = filter_get_default();
+    $t_filter[FILTER_PROPERTY_STATUS_ID] = $p_desired_statuses;
+    $t_filter[FILTER_PROPERTY_PROJECT_ID] = $p_project_id;
+    $t_filter['_view_type'] = 'advanced';
+
+    # Get bug rows according to the current filter
+    $t_page_number = 1;
+    $t_per_page = -1;
+    $t_bug_count = null;
+    $t_page_count = null;
+    $t_filter_result = filter_get_bug_rows( $t_page_number, $t_per_page, 
+        $t_page_count, $t_bug_count, $t_filter);
+
+    if( $t_filter_result === false ) {
+        echo "<p>FILTER FAILED!<p>";
+        $t_filter_result = array();
+    }
+
+    return $t_filter_result;
+
+}
 
 
+$t_issues_to_delete = create_bug_list();
+
+echo "<p>Found " . count($t_issues_to_delete) . " issues to delete</p>";
+foreach ($t_issues_to_delete as $t_issue) {
+    echo "<pre>";
+    echo "Project: $t_issue->project_id issue: $t_issue->id";
+    echo "</pre>";
+}
 /*
 <br />
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
