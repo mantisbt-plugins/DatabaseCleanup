@@ -5,7 +5,7 @@ $s_plugin_DatabaseCleanup_description = 'Clean database from older items accordi
 
 $s_plugin_DatabaseCleanup_config = 'Configuration';
 
-$s_plugin_DatabaseCleanup_expiration_period = 'Default expiration period (in days, 0 to disable)';
-$s_plugin_DatabaseCleanup_project_expiration_period = 'Expiration period (in days, 0 to use global default)';
+$s_plugin_DatabaseCleanup_expiration_period = 'Default expiration period (0 to disable)';
+$s_plugin_DatabaseCleanup_project_expiration_period = 'Expiration period (0 to use global default)';
 
 $s_plugin_DatabaseCleanup_minimum_status = 'Minimum status';

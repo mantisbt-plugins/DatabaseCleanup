@@ -39,6 +39,13 @@ class DatabaseCleanupPlugin extends MantisPlugin {
     }
 
 
+    public function errors() {
+        return array(
+            'InvalidPeriodString' => 'Invalid period string. Please use something like "4 days", "6 months" or "1 year"',
+        );
+    }
+
+
     function project_options( $p_event, $p_project_id ) {
         $t_project_expiration_period = plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id);
         echo '<tr ' . helper_alternate_class() . '>';
@@ -53,8 +60,18 @@ class DatabaseCleanupPlugin extends MantisPlugin {
 
 
     function project_options_update( $p_event, $p_project_id ) {
-        $f_project_expiration_period = gpc_get_int('expiration');
-        if (plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id) != $f_project_expiration_period) {
+        $f_project_expiration_period = gpc_get_string('expiration');
+
+        if ($f_project_expiration_period == "0") {
+            plugin_config_delete('project_expiration_period', NO_USER, $p_project_id);
+            return;
+        }
+
+        if ( strtotime("- $f_project_expiration_period") === false) {
+            # conversion failed
+            plugin_error( 'InvalidPeriodString', ERROR );
+        }
+        else if (plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id) != $f_project_expiration_period) {
             plugin_config_set( 'project_expiration_period', $f_project_expiration_period, NO_USER, $p_project_id);
         }
 
