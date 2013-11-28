@@ -126,51 +126,5 @@ foreach ($t_issues_to_delete as $t_issue) {
 
 create_csv($t_issues_to_delete);
 
-/*
-<br />
-<form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
-<?php echo form_security_field( 'plugin_DatabaseCleanup_config_edit' ) ?>
-<table align="center" class="width75" cellspacing="1">
-
-<tr>
-    <td class="form-title" colspan="3">
-        <?php echo plugin_lang_get( 'title' ) . ': ' 
-        . plugin_lang_get( 'config' )?>
-    </td>
-</tr>
-
-<tr <?php echo helper_alternate_class( )?>>
-    <td class="category">
-        <?php echo plugin_lang_get( 'expiration_period' )?>
-    </td>
-    <td class="center" colspan="2">
-        <label><input type="text" name="expiration" value="<?php echo $t_default_expiration_period; ?>"></label>
-    </td>
-</tr>
-
-<tr <?php echo helper_alternate_class( )?>>
-    <td class="category">
-        <?php echo plugin_lang_get( 'minimum_status' )?>
-    </td>
-    <td class="center" colspan="2">
-        <select name="minimum_status">
-            <?php print_enum_string_option_list( 'status', $t_minimum_status ) ?>
-        </select>  
-    </td>
-</tr>
-
-
-<tr class="spacer"><td></td></tr>
-
-<tr>
-    <td class="center" colspan="3">
-        <input type="submit" class="button" value="<?php echo lang_get( 'change_configuration' )?>" />
-    </td>
-</tr>
-
-</table>
-<form>
-*/
-
 html_page_bottom();
 
