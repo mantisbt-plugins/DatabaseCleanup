@@ -77,6 +77,27 @@ function do_query( $p_project_id, $p_desired_statuses){
 }
 
 
+function create_csv($p_issues_list){
+    $t_deletion_time = new DateTime();
+    echo '<pre>';
+    echo 'project,issue,status,summary,"deleted on",age,"expiration period"'. "\r\n";
+    foreach ($p_issues_list as $t_issue) {
+        $t_reference_date = DateTime::createFromFormat("U", $t_issue->date_submitted);
+        $t_age = $t_reference_date->diff( $t_deletion_time );
+        $t_expiration_period = get_project_expiration_period($t_issue->project_id);
+        echo project_get_name($t_issue->project_id) . ','
+            . $t_issue->id . ','
+            . get_enum_element( 'status', $t_issue->status, NO_USER, $t_issue->project_id ) . ','
+            . '"' . $t_issue->summary . '",'
+            . $t_deletion_time->format('Y-m-d') . ','
+            . $t_age->format('"%d days"'). ','
+            . '"' . $t_expiration_period . '"'
+            . "\r\n";
+    }
+    echo '</pre>';
+}
+
+
 $t_issues_to_delete = create_bug_list();
 
 echo "<p>Found " . count($t_issues_to_delete) . " issues to delete</p>";
@@ -84,8 +105,11 @@ foreach ($t_issues_to_delete as $t_issue) {
     echo "<p>";
     echo "Project: $t_issue->project_id " . '<a href="' . string_get_bug_view_url($t_issue->id) . '"' . ">issue: $t_issue->id</a>";
     echo "</p>";
-    echo "<pre>"; print_r($t_issue); echo "</pre>";
+    //echo "<pre>"; print_r($t_issue); echo "</pre>";
 }
+
+create_csv($t_issues_to_delete);
+
 /*
 <br />
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
