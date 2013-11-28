@@ -24,6 +24,8 @@ $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
 $t_minimum_status = plugin_config_get('minimum_status');
 $t_reference_date = plugin_config_get('reference_date');
 $t_admin_email = plugin_config_get('admin_email');
+$t_run_delay = plugin_config_get('run_delay');
+
 ?>
 <br />
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
@@ -83,6 +85,16 @@ foreach ( $t_fields as $t_key => $t_value) {
     </td>
 </tr>
 
+<tr class="spacer"><td></td></tr>
+
+<tr <?php echo helper_alternate_class( )?>>
+    <td class="category">
+        <?php echo plugin_lang_get( 'run_delay' )?>
+    </td>
+    <td class="center" colspan="2">
+        <label><input type="text" name="run_delay" value="<?php echo $t_run_delay; ?>"></label>
+    </td>
+</tr>
 
 <tr class="spacer"><td></td></tr>
 
