@@ -27,3 +27,5 @@ $s_plugin_DatabaseCleanup_minimum_status = 'Minimum status';
 $s_plugin_DatabaseCleanup_reference_date = 'Reference date field - will use this to measure issue\'s age';
 $s_plugin_DatabaseCleanup_date_submitted = 'Submitted date';
 $s_plugin_DatabaseCleanup_last_updated = 'Last update';
+
+$s_plugin_DatabaseCleanup_admin_email = 'Administrator email - if set, a summary will be sent after each cleanup';

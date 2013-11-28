@@ -23,6 +23,7 @@ print_manage_menu( );
 $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
 $t_minimum_status = plugin_config_get('minimum_status');
 $t_reference_date = plugin_config_get('reference_date');
+$t_admin_email = plugin_config_get('admin_email');
 ?>
 <br />
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
@@ -69,7 +70,16 @@ foreach ( $t_fields as $t_key => $t_value) {
     <td class="center" colspan="2">
         <select name="minimum_status">
             <?php print_enum_string_option_list( 'status', $t_minimum_status ) ?>
-        </select>  
+        </select>
+    </td>
+</tr>
+
+<tr <?php echo helper_alternate_class( )?>>
+    <td class="category">
+        <?php echo plugin_lang_get( 'admin_email' )?>
+    </td>
+    <td class="center" colspan="2">
+        <label><input type="text" name="admin_email" value="<?php echo $t_admin_email; ?>"></label>
     </td>
 </tr>
 
