@@ -7,6 +7,15 @@ html_page_top( plugin_lang_get( 'title' ) );
 print_manage_menu();
 
 
+function get_project_expiration_period($p_project_id){
+    $t_expiration_period = plugin_config_get( 'default_expiration_period' );
+    $t_project_expiration_period = plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id);
+    if ($t_project_expiration_period != "0") {
+        // replace global expiration
+        $t_expiration_period = $t_project_expiration_period;
+    }
+    return $t_expiration_period;
+}
 
 // create and return the list of issues matching the configured rules for deletion
 function create_bug_list(){
@@ -17,8 +26,6 @@ function create_bug_list(){
         // Disabled, return an empty list
         return $t_issues_list;
     }
-
-    $t_expiration_date = strtotime("- $t_default_expiration_period");
 
     $t_minimum_status = plugin_config_get('minimum_status');
     $t_desired_statuses = array();
@@ -32,16 +39,11 @@ function create_bug_list(){
     # foreach project
     $t_projects = project_get_all_rows();
     foreach ( $t_projects as $t_project_id => $t_project_data ) {
-        # determine expiration date for the project
-        $t_project_expiration_period = plugin_config_get( 'project_expiration_period', 0, false, null, $t_project_id);
-        if ($t_project_expiration_period != "0") {
-            // replace global expiration date
-            $t_expiration_date = strtotime("- $t_project_expiration_period");
-        }
-        
+        $t_expiration_date = strtotime("- ". get_project_expiration_period($t_project_id));
         $t_selected_issues = do_query($t_project_id, $t_desired_statuses);
         foreach ($t_selected_issues as $t_issue) {
             if ($t_issue->date_submitted < $t_expiration_date ) {
+                $t_issue->expiration_date = $t_expiration_date;
                 $t_issues_list[] = $t_issue;
             }
         }
