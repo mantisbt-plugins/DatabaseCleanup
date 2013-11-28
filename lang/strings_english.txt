@@ -9,3 +9,7 @@ $s_plugin_DatabaseCleanup_expiration_period = 'Default expiration period (0 to d
 $s_plugin_DatabaseCleanup_project_expiration_period = 'Expiration period (0 to use global default)';
 
 $s_plugin_DatabaseCleanup_minimum_status = 'Minimum status';
+
+$s_plugin_DatabaseCleanup_reference_date = 'Reference date field - will use this to measure issue\'s age';
+$s_plugin_DatabaseCleanup_date_submitted = 'Submitted date';
+$s_plugin_DatabaseCleanup_last_updated = 'Last update';

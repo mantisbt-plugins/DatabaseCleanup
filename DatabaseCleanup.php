@@ -28,8 +28,9 @@ class DatabaseCleanupPlugin extends MantisPlugin {
         return array(
             // in days, 0 means disabled
             'default_expiration_period' => 0,
-            'reference_date' => '',
+            'reference_date' => 'date_submitted',
             'minimum_status' => _NEW,
+            'admin_email' => '',
         );
     }
 

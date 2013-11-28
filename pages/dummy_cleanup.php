@@ -22,6 +22,7 @@ function create_bug_list(){
     $t_issues_list = array();
 
     $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
+    $t_reference_date_field = plugin_config_get('reference_date');
     if ($t_default_expiration_period == "0"){
         // Disabled, return an empty list
         return $t_issues_list;
@@ -42,7 +43,7 @@ function create_bug_list(){
         $t_expiration_date = strtotime("- ". get_project_expiration_period($t_project_id));
         $t_selected_issues = do_query($t_project_id, $t_desired_statuses);
         foreach ($t_selected_issues as $t_issue) {
-            if ($t_issue->date_submitted < $t_expiration_date ) {
+            if ($t_issue->$t_reference_date_field < $t_expiration_date ) {
                 $t_issue->expiration_date = $t_expiration_date;
                 $t_issues_list[] = $t_issue;
             }
@@ -78,11 +79,13 @@ function do_query( $p_project_id, $p_desired_statuses){
 
 
 function create_csv($p_issues_list){
+    $t_reference_date_field = plugin_config_get('reference_date');
     $t_deletion_time = new DateTime();
+
     echo '<pre>';
     echo 'project,issue,status,summary,"deleted on",age,"expiration period"'. "\r\n";
     foreach ($p_issues_list as $t_issue) {
-        $t_reference_date = DateTime::createFromFormat("U", $t_issue->date_submitted);
+        $t_reference_date = DateTime::createFromFormat("U", $t_issue->$t_reference_date_field);
         $t_age = $t_reference_date->diff( $t_deletion_time );
         $t_expiration_period = get_project_expiration_period($t_issue->project_id);
         echo project_get_name($t_issue->project_id) . ','
