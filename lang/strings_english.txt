@@ -30,3 +30,6 @@ $s_plugin_DatabaseCleanup_date_submitted = 'Submitted date';
 $s_plugin_DatabaseCleanup_last_updated = 'Last update';
 
 $s_plugin_DatabaseCleanup_admin_email = 'Administrator email - if set, a summary will be sent after each cleanup';
+
+$s_plugin_DatabaseCleanup_secret_key = 'Secret key';
+$s_plugin_DatabaseCleanup_generate_key = 'Generate key';

@@ -27,7 +27,14 @@ $t_last_cleanup_run = plugin_config_get('last_cleanup_run', 0);
 
 if ( strtotime('now') - $t_last_cleanup_run < $t_run_delay * 60 * 60 ){
     response('Not enough time passed since last run.', 403);
-    die;
+    exit;
+}
+
+// check shared secret
+$t_secret_key = plugin_config_get('secret_key');
+if ( empty($t_secret_key) ) {
+    response('Secret key not found, please check plugin configuration', 503 );
+    exit;
 }
 
 

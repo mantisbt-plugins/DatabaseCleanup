@@ -25,6 +25,7 @@ $t_minimum_status = plugin_config_get('minimum_status');
 $t_reference_date = plugin_config_get('reference_date');
 $t_admin_email = plugin_config_get('admin_email');
 $t_run_delay = plugin_config_get('run_delay');
+$t_secret_key = plugin_config_get('secret_key');
 
 ?>
 <br />
@@ -93,6 +94,16 @@ foreach ( $t_fields as $t_key => $t_value) {
     </td>
     <td class="center" colspan="2">
         <label><input type="text" name="run_delay" value="<?php echo $t_run_delay; ?>"></label>
+    </td>
+</tr>
+
+<tr <?php echo helper_alternate_class( )?>>
+    <td class="category">
+        <?php echo plugin_lang_get( 'secret_key' )?>
+    </td>
+    <td class="center">
+        <label><input type="text" name="secret_key" value="<?php echo $t_secret_key; ?>"></label>
+    <input type="submit" class="button" name="generate_key" value="<?php echo plugin_lang_get( 'generate_key' )?>" />
     </td>
 </tr>
 

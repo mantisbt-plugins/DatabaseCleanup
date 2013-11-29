@@ -43,6 +43,7 @@ class DatabaseCleanupPlugin extends MantisPlugin {
             'admin_email' => '',
             'run_delay' => 12,
             'last_cleanup_run' => 0,
+            'secret_key' => ''
         );
     }
 

@@ -23,6 +23,7 @@ $f_minimum_status = gpc_get_int( 'minimum_status' );
 $f_reference_date = gpc_get_string('reference_date');
 $f_admin_email = gpc_get_string('admin_email');
 $f_run_delay = gpc_get_int( 'run_delay', 12 );
+$f_secret_key = gpc_get_string('secret_key');
 
 if ( $f_expiration != "0" && strtotime("- $f_expiration") === false) {
 	# conversion failed
@@ -46,6 +47,14 @@ if ( plugin_config_get( 'run_delay' ) != $f_run_delay ) {
 if ( plugin_config_get( 'admin_email' ) != $f_admin_email ) {
 	email_ensure_valid($f_admin_email);
 	plugin_config_set( 'admin_email', $f_admin_email );
+}
+
+if ( plugin_config_get( 'secret_key' ) != $f_secret_key ) {
+	plugin_config_set( 'secret_key', $f_secret_key );
+}
+
+if ( isset( $_POST[generate_key] ) ) {
+	plugin_config_set('secret_key', md5(time()));
 }
 
 form_security_purge( 'plugin_DatabaseCleanup_config_edit' );
