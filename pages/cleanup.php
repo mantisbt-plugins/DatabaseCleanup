@@ -30,13 +30,30 @@ if ( strtotime('now') - $t_last_cleanup_run < $t_run_delay * 60 * 60 ){
     exit;
 }
 
-// check shared secret
+// check secret key
 $t_secret_key = plugin_config_get('secret_key');
 if ( empty($t_secret_key) ) {
     response('Secret key not found, please check plugin configuration', 503 );
     exit;
 }
 
+// check remote key and signature
+$f_key = gpc_get_string('key', '');
+if ( empty($f_key) ) {
+    response('Remote key not found, be sure to add a "key" parameter with a random string', 400 );
+    exit;
+}
+$f_signature = gpc_get_string('sig', '');
+if ( empty($f_signature) ) {
+    response('Signature not found', 400 );
+    exit;
+}
+
+//verify signature
+if ( $f_signature != md5($t_secret_key.$f_key) ){
+    response('Invalid signature', 401 );
+    exit;
+}
 
 $t_issues_to_delete = create_bug_list();
 
