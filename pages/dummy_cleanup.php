@@ -32,7 +32,11 @@ foreach ($t_issues_to_delete as $t_issue) {
     //echo "<pre>"; print_r($t_issue); echo "</pre>";
 }
 
-create_csv($t_issues_to_delete);
+$t_csv = create_csv($t_issues_to_delete);
+
+echo '<pre>';
+echo implode("\r\n", $t_csv);
+echo '</pre>';
 
 html_page_bottom();
 

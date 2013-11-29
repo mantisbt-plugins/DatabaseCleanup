@@ -57,12 +57,16 @@ if ( $f_signature != md5($t_secret_key.$f_key) ){
 
 $t_issues_to_delete = create_bug_list();
 
-function delete_issues($p_issues_list) {
+// send csv if needed
+$t_admin_email = plugin_config_get('admin_email');
+if ( ! empty($t_admin_email) ){
+    $t_csv = create_csv($t_issues_to_delete);
+    email_store($t_admin_email, 'Mantis database cleanup report', implode("\r\n", $t_csv));
+    email_send_all();
+}
 
-    foreach ($p_issues_list as $key => $value) {
-        # bug_delete
-    }
-
+foreach ($t_issues_to_delete as $key => $value) {
+    # bug_delete
 }
 
 plugin_config_set('last_cleanup_run', strtotime('now'));
