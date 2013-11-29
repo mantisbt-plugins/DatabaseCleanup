@@ -65,8 +65,8 @@ if ( ! empty($t_admin_email) ){
     email_send_all();
 }
 
-foreach ($t_issues_to_delete as $key => $value) {
-    # bug_delete
+foreach ($t_issues_to_delete as $t_issue) {
+    bug_delete($t_issue->id);
 }
 
 plugin_config_set('last_cleanup_run', strtotime('now'));
