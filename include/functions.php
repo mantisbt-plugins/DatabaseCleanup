@@ -89,7 +89,7 @@ function create_csv($p_issues_list){
     $t_deletion_time = new DateTime();
 
     $t_result = array();
-    $t_result[] = 'project,issue,status,summary,"deleted on",age,"expiration period"';
+    $t_result[] = 'project,issue,status,summary,"deleted on",overaged,"expiration period"';
     foreach ($p_issues_list as $t_issue) {
         $t_reference_date = DateTime::createFromFormat("U", $t_issue->$t_reference_date_field);
         $t_age = $t_reference_date->diff( $t_deletion_time );
