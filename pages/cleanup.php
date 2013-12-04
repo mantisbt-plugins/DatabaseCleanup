@@ -59,7 +59,7 @@ $t_issues_to_delete = create_bug_list();
 
 // send csv if needed
 $t_admin_email = plugin_config_get('admin_email');
-if ( ! empty($t_admin_email) ){
+if ( ! empty($t_admin_email) && $t_issues_to_delete ){
     $t_csv = create_csv($t_issues_to_delete);
     email_store($t_admin_email, 'Mantis database cleanup report', implode("\r\n", $t_csv));
     email_send_all();
