@@ -65,8 +65,12 @@ if ( ! empty($t_admin_email) ){
     email_send_all();
 }
 
+// disable email notification to avoid spamming
+config_set_global('enable_email_notification', OFF);
 foreach ($t_issues_to_delete as $t_issue) {
     bug_delete($t_issue->id);
 }
+
+echo count($t_issues_to_delete) . " issues deleted";
 
 plugin_config_set('last_cleanup_run', strtotime('now'));
