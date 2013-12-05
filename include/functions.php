@@ -99,7 +99,7 @@ function create_csv($p_issues_list){
             . get_enum_element( 'status', $t_issue->status, NO_USER, $t_issue->project_id ) . ','
             . '"' . $t_issue->summary . '",'
             . $t_deletion_time->format('Y-m-d') . ','
-            . $t_age->format('"%d days"'). ','
+            . '"' . $t_age->days . ' days",'
             . '"' . $t_expiration_period . '"';
     }
     return $t_result;
