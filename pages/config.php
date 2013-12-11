@@ -27,6 +27,10 @@ $t_admin_email = plugin_config_get('admin_email');
 $t_run_delay = plugin_config_get('run_delay');
 $t_secret_key = plugin_config_get('secret_key');
 
+$t_current_user = auth_get_current_user_id();
+$t_username = user_get_field($t_current_user, 'username');
+$t_run_as_user = plugin_config_get('run_as_user', $t_username);
+
 ?>
 <br />
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
@@ -74,6 +78,15 @@ foreach ( $t_fields as $t_key => $t_value) {
         <select name="minimum_status">
             <?php print_enum_string_option_list( 'status', $t_minimum_status ) ?>
         </select>
+    </td>
+</tr>
+
+<tr <?php echo helper_alternate_class( )?>>
+    <td class="category">
+        <?php echo plugin_lang_get( 'run_as_user' )?>
+    </td>
+    <td class="center" colspan="2">
+        <label><input type="text" name="run_as_user" value="<?php echo $t_run_as_user; ?>"></label>
     </td>
 </tr>
 

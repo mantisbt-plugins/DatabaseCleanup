@@ -21,6 +21,10 @@ function response( $p_content, $p_status=200 ){
     echo $p_content;
 }
 
+# run script as administrator
+$t_run_as_user = plugin_config_get('run_as_user');
+auth_attempt_script_login($t_run_as_user);
+
 // check if enough time has passed since last run
 $t_run_delay = plugin_config_get('run_delay');
 $t_last_cleanup_run = plugin_config_get('last_cleanup_run', 0);

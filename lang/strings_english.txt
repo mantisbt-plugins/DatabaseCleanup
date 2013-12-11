@@ -29,6 +29,7 @@ $s_plugin_DatabaseCleanup_reference_date = 'Reference date field - will use this
 $s_plugin_DatabaseCleanup_date_submitted = 'Submitted date';
 $s_plugin_DatabaseCleanup_last_updated = 'Last update';
 
+$s_plugin_DatabaseCleanup_run_as_user = 'Run script as user (needs to be an admin)';
 $s_plugin_DatabaseCleanup_admin_email = 'Administrator email - if set, a summary will be sent after each cleanup';
 
 $s_plugin_DatabaseCleanup_secret_key = 'Secret key';
