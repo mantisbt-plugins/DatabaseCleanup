@@ -22,6 +22,52 @@ access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 html_page_top( plugin_lang_get( 'title' ) );
 print_manage_menu();
 
+
+echo "<h1>Preliminary checks</h1>";
+
+// check if enough time has passed since last run
+$t_run_delay = plugin_config_get('run_delay');
+$t_last_cleanup_run = plugin_config_get('last_cleanup_run', 0);
+
+echo "<p>Runs delay expired: ";
+if ( strtotime('now') - $t_last_cleanup_run < $t_run_delay * 60 * 60 ){
+    echo "NO</p>";
+}
+else {
+    echo "YES</p>";
+}
+
+// check remote key and signature
+echo "<p>Key paramenter present: ";
+$f_key = gpc_get_string('key', '');
+if ( empty($f_key) ) {
+    echo "NO</p>";
+}
+else {
+    echo "YES</p>";
+}
+
+echo "<p>Signature paramenter present: ";
+$f_signature = gpc_get_string('sig', '');
+if ( empty($f_signature) ) {
+    echo "NO</p>";
+}
+else {
+    echo "YES</p>";
+}
+
+//verify signature
+echo "<p>Signature verification pass: ";
+$t_secret_key = plugin_config_get('secret_key');
+if ( $f_signature != md5($t_secret_key.$f_key) ) {
+    echo "NO</p>";
+}
+else {
+    echo "YES</p>";
+}
+
+echo "<h1>Simulations results</h1>";
+
 $t_issues_to_delete = create_bug_list();
 
 echo "<p>Found " . count($t_issues_to_delete) . " issues to delete</p>";
