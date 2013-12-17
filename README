@@ -1,0 +1,80 @@
+DatabaseCleanup plugin for Mantis issue tracker
+=============================================
+
+The main usage for this plugin is to remove issues that reached a predefined
+status and age.
+
+
+Installation
+------------
+As with other plugins, it is enough to download or unpack the plugin in the
+plugins/ directory of your existing mantis installation
+
+
+Configuration
+-------------
+All the tunables for the plugin are accessible from the Manage Plugins page
+<mantis_url>/plugin.php?page=DatabaseCleanup/config
+
+However, it is always possible to define configuration variables in 
+config_inc.php; those will named:
+
+$g_plugin_DatabaseCleanup_<variable name>
+
+where the actual variable names are given below
+
+
+Configuration variables
+-----------------------
+*   default_expiration_period
+    bug expiration period, valid for all projects. It is possible to use
+    natural language like 'one year' or '6 months' as understood by the 
+    strtotime() PHP function. A value of '0' disables the plugin.
+
+*   reference_date
+    timestamp to use as reference. Can be either the string 'date_submitted'
+    or 'last_udpdated'
+
+*   minimum_status
+    only bugs above this status will be deleted
+
+*   run_as_user
+    run script as the given user wsaas logged in. Needs delete privileges 
+    for all projects
+
+*   admin_email
+    if set, send a summary email to the administator with a CSV attachment
+    detailing issues deleted
+
+*   run_delay
+    delay in hours between consecutive runs of the script. This is a security
+    measure against DoS attacks
+
+*   secret_key
+    a shared secret string, used to authorize clients to run the cleanup
+
+
+Testing cleanup
+---------------
+When everything is configured, it is possible to test the procedure by 
+opening the page:
+
+<mantis_url>/plugin.php?page=DatabaseCleanup/dummy_cleanup
+
+you will be able to check if the call has all the required parameters (see 
+below) and see the cleanup summary with the sample CSV that will be sent to 
+the administator
+
+
+Running the cleanup operation
+-----------------------------
+In order to trigger the cleanup operation, you need to call the URL:
+<mantis_url>/plugin.php?page=DatabaseCleanup/cleanup&key=XXXXX&sig=YYYYY
+
+where XXXXX is a random string (for security purposes, we suggest using a 
+different one at each run) and sig is call signature, defined as:
+
+md5(secret_key + key)
+
+There is a convenient run_cleanup.sh script in the cron/ directory that can be
+used to trigger periodically the cleanup script
