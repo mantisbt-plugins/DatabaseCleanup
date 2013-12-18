@@ -4,6 +4,11 @@ DatabaseCleanup plugin for Mantis issue tracker
 The main usage for this plugin is to remove issues that reached a predefined
 status and age.
 
+WARNING
+This plugin can purge a large number of issues, along with their comments, 
+attachments, and all other related data **without any confirmation**.
+Please make sure to backup your database before testing the plugin. 
+
 
 Installation
 ------------
