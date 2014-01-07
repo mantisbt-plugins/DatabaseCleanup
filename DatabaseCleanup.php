@@ -39,7 +39,7 @@ class DatabaseCleanupPlugin extends MantisPlugin {
             // in days, 0 means disabled
             'default_expiration_period' => 0,
             'reference_date' => 'date_submitted',
-            'minimum_status' => _NEW,
+            'minimum_status' => NEW_,
             'run_as_user' => '',
             'admin_email' => '',
             'run_delay' => 12,
