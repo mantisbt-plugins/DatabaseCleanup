@@ -13,6 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+class IssueData {
+    public $id;
+    public $project_id;
+    public $status;
+    public $date_submitted = '';
+    public $last_updated = '';
+    public $summary = '';
+}
+
 function get_project_expiration_period($p_project_id){
     $t_expiration_period = plugin_config_get( 'default_expiration_period' );
     $t_project_expiration_period = plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id);
@@ -56,11 +66,11 @@ function create_bug_list(){
         }
     }
     return $t_issues_list;
-
 }
 
 
 function do_query( $p_project_id, $p_desired_statuses){
+    global $g_cache_bug;
     # create filter
     $t_filter = filter_get_default();
     $t_filter[FILTER_PROPERTY_STATUS_ID] = $p_desired_statuses;
@@ -68,16 +78,32 @@ function do_query( $p_project_id, $p_desired_statuses){
     $t_filter['_view_type'] = 'advanced';
 
     # Get bug rows according to the current filter
-    $t_page_number = 1;
-    $t_per_page = -1;
+    $t_page_number = -1;
+    $t_per_page = 100;
     $t_bug_count = null;
     $t_page_count = null;
-    $t_filter_result = filter_get_bug_rows( $t_page_number, $t_per_page, 
+    $t_filter_result = array();
+
+    $rows = filter_get_bug_rows( $t_page_number, $t_per_page, 
         $t_page_count, $t_bug_count, $t_filter);
+    for ($t_page = 1; $t_page <= $t_page_count; ++$t_page){
+        // nuke the bug cache, otherwise we hit memory limit on large projects
+        $g_cache_bug = null;
+        $rows = filter_get_bug_rows( $t_page, $t_per_page, 
+            $t_page_count, $t_bug_count, $t_filter);
+        foreach ($rows as $t_bug) {
+            $t_new_data = new IssueData();
+            $t_new_data->id = $t_bug->id;
+            $t_new_data->project_id = $t_bug->project_id;
+            $t_new_data->status = $t_bug->status;
+            $t_new_data->date_submitted = $t_bug->date_submitted;
+            $t_new_data->last_updated = $t_bug->last_updated;
+            $t_filter_result[] = $t_new_data;
+        }
+    }
 
     if( $t_filter_result === false ) {
         echo "<p>FILTER FAILED!<p>";
-        $t_filter_result = array();
     }
 
     return $t_filter_result;
