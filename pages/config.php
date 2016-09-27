@@ -33,18 +33,19 @@ $t_run_as_user = plugin_config_get('run_as_user', $t_username);
 
 ?>
 <br />
+<div id="database-cleanup-config-div" class="form-container">
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
 <?php echo form_security_field( 'plugin_DatabaseCleanup_config_edit' ) ?>
-<table align="center" class="width75" cellspacing="1">
+<table cellspacing="1">
 
 <tr>
     <td class="form-title" colspan="3">
-        <?php echo plugin_lang_get( 'title' ) . ': ' 
+        <?php echo plugin_lang_get( 'title' ) . ': '
         . plugin_lang_get( 'config' )?>
     </td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
     <td class="category">
         <?php echo plugin_lang_get( 'expiration_period' )?>
     </td>
@@ -53,7 +54,7 @@ $t_run_as_user = plugin_config_get('run_as_user', $t_username);
     </td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
     <td class="category">
         <?php echo plugin_lang_get( 'reference_date' )?>
     </td>
@@ -70,7 +71,7 @@ foreach ( $t_fields as $t_key => $t_value) {
     </td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
     <td class="category">
         <?php echo plugin_lang_get( 'minimum_status' )?>
     </td>
@@ -81,7 +82,7 @@ foreach ( $t_fields as $t_key => $t_value) {
     </td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
     <td class="category">
         <?php echo plugin_lang_get( 'run_as_user' )?>
     </td>
@@ -90,7 +91,7 @@ foreach ( $t_fields as $t_key => $t_value) {
     </td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
     <td class="category">
         <?php echo plugin_lang_get( 'admin_email' )?>
     </td>
@@ -101,7 +102,7 @@ foreach ( $t_fields as $t_key => $t_value) {
 
 <tr class="spacer"><td></td></tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
     <td class="category">
         <?php echo plugin_lang_get( 'run_delay' )?>
     </td>
@@ -110,7 +111,7 @@ foreach ( $t_fields as $t_key => $t_value) {
     </td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
     <td class="category">
         <?php echo plugin_lang_get( 'secret_key' )?>
     </td>
@@ -130,6 +131,7 @@ foreach ( $t_fields as $t_key => $t_value) {
 
 </table>
 <form>
+</div>
 
 <?php
 html_page_bottom();

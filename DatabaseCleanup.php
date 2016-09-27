@@ -63,7 +63,7 @@ class DatabaseCleanupPlugin extends MantisPlugin {
 
     function project_options( $p_event, $p_project_id ) {
         $t_project_expiration_period = plugin_config_get( 'project_expiration_period', 0, false, null, $p_project_id);
-        echo '<tr ' . helper_alternate_class() . '>';
+        echo '<tr>';
         echo '<td class="category">';
         echo plugin_lang_get( 'project_expiration_period' );
         echo '</td>';
