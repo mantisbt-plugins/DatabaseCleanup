@@ -73,7 +73,7 @@ function do_query( $p_project_id, $p_desired_statuses){
     global $g_cache_bug;
     # create filter
     $t_filter = filter_get_default();
-    $t_filter[FILTER_PROPERTY_STATUS_ID] = $p_desired_statuses;
+    $t_filter[FILTER_PROPERTY_STATUS] = $p_desired_statuses;
     $t_filter[FILTER_PROPERTY_PROJECT_ID] = $p_project_id;
     $t_filter['_view_type'] = 'advanced';
 
