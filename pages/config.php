@@ -16,9 +16,9 @@
 auth_reauthenticate( );
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
-html_page_top( plugin_lang_get( 'title' ) );
-print_manage_menu( );
-
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
+print_manage_menu();
 
 $t_default_expiration_period = plugin_config_get( 'default_expiration_period' );
 $t_minimum_status = plugin_config_get('minimum_status');
@@ -134,4 +134,4 @@ foreach ( $t_fields as $t_key => $t_value) {
 </div>
 
 <?php
-html_page_bottom();
+layout_page_end();

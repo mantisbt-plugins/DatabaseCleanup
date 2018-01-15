@@ -19,7 +19,8 @@ require_once($t_plugin_path . 'DatabaseCleanup/include/functions.php');
 auth_reauthenticate( );
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
-html_page_top( plugin_lang_get( 'title' ) );
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 print_manage_menu();
 
 
@@ -84,5 +85,5 @@ echo '<pre>';
 echo implode("\r\n", $t_csv);
 echo '</pre>';
 
-html_page_bottom();
+layout_page_end();
 
