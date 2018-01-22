@@ -63,7 +63,7 @@ $t_issues_to_delete = create_bug_list();
 
 // send csv if needed
 $t_admin_email = plugin_config_get('admin_email');
-$g_phpMailer = new phpMailer();
+$g_phpMailer = new PHPMailer();
 if ( ! empty($t_admin_email) && $t_issues_to_delete ){
     $t_csv = create_csv($t_issues_to_delete);
     $g_phpMailer->AddStringAttachment(implode("\r\n", $t_csv), 'report.csv');
