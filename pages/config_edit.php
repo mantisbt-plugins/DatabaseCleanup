@@ -67,7 +67,7 @@ if ( plugin_config_get( 'secret_key' ) != $f_secret_key ) {
 	plugin_config_set( 'secret_key', $f_secret_key );
 }
 
-if ( isset( $_POST[generate_key] ) ) {
+if ( isset( $_POST['generate_key'] ) ) {
 	plugin_config_set('secret_key', md5(time()));
 }
 
