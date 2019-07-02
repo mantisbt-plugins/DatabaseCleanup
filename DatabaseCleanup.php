@@ -20,7 +20,7 @@ class DatabaseCleanupPlugin extends MantisPlugin {
         $this->name        = plugin_lang_get('title');
         $this->description = plugin_lang_get('description');
 
-        $this->version     = '1.2';
+        $this->version     = '1.2.1';
         $this->requires    = array(
           'MantisCore'       => '2.8.0',
         );
